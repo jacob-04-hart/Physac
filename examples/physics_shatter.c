@@ -17,9 +17,11 @@
 *   ../../includes/raylib/src
 ********************************************************************************************/
 #include "../src/physac.h"
+#include "../src/external/raylib.h"
+#include <stddef.h> // For NULL definition
 
 #define PHYSAC_IMPLEMENTATION
-#include "../src/external/raylib.h"
+
 
 #define SHATTER_FORCE 200.0f
 
