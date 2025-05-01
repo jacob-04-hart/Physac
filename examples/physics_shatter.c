@@ -2,23 +2,24 @@
 *
 *   Physac - Body shatter
 *
-*   NOTE 1: Physac requires multi-threading, when InitPhysics() a second thread 
+*   NOTE 1: Physac requires multi-threading, when InitPhysics() a second thread
 *           is created to manage physics calculations.
-*   NOTE 2: Physac requires static C library linkage to avoid dependency 
+*   NOTE 2: Physac requires static C library linkage to avoid dependency
 *           on MinGW DLL (-static -lpthread)
 *
 *   Compile this program using:
-*       gcc -o $(NAME_PART).exe $(FILE_NAME) -s ..\icon\physac_icon -I. -I../src 
+*       gcc -o $(NAME_PART).exe $(FILE_NAME) -s ..\icon\physac_icon -I. -I../src
 *           -I../src/external/raylib/src -static -lraylib -lopengl32 -lgdi32 -pthread -std=c99
-*   
+*
 *   Copyright (c) 2016-2020 Victor Fisac (github: @victorfisac)
 *
+*   ../src/external/raylib/src
+*   ../../includes/raylib/src
 ********************************************************************************************/
-
-#include "raylib.h"
+#include "../src/physac.h"
 
 #define PHYSAC_IMPLEMENTATION
-#include "../src/physac.h"
+#include "../src/external/raylib.h"
 
 #define SHATTER_FORCE 200.0f
 
@@ -43,7 +44,7 @@ int main()
 
     // Create random polygon physics body to shatter
     PhysicsBody shatterBody = CreatePhysicsBodyPolygon((Vector2){ screenWidth/2, screenHeight/2 }, GetRandomValue(80, 200), GetRandomValue(3, 8), 10);
-    
+
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
 
@@ -65,11 +66,11 @@ int main()
         {
             // Note: some values need to be stored in variables due to asynchronous changes during main thread
             int count = GetPhysicsBodiesCount();
-            
+
             for (int i = count - 1; i >= 0; i--)
             {
                 PhysicsBody currentBody = GetPhysicsBody(i);
-                
+
                 if (currentBody != NULL)
                 {
                     PhysicsShatter(currentBody, GetMousePosition(), SHATTER_FORCE);
@@ -118,9 +119,9 @@ int main()
     }
 
     // De-Initialization
-    //--------------------------------------------------------------------------------------   
+    //--------------------------------------------------------------------------------------
     ClosePhysics();       // Uninitialize physics
-    
+
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
